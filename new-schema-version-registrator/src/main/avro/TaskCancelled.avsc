@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "TaskCancelled",
+  "namespace": "com.demo.avro",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    }
+  ]
+}

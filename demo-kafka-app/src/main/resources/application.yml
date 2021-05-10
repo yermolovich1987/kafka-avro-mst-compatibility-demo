@@ -1,0 +1,35 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      security:
+        protocol: PLAINTEXT
+      schema:
+        registry:
+          url: http://localhost:8081
+      specific:
+        avro:
+          reader: true
+      auto:
+        register:
+          schemas: false
+      use:
+        latest:
+          version: true
+    consumer:
+      group-id: demo-consumer
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        max:
+          block:
+            ms: 20000
+
+app:
+  kafka:
+    single-schema-topic: simple-single-message-topic
+    multi-schema-topic: multi-schema-topic

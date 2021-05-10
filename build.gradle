@@ -1,0 +1,19 @@
+group 'com.demo'
+version '1.0-SNAPSHOT'
+
+subprojects {
+    pluginManager.withPlugin('io.spring.dependency-management') {
+        dependencyManagement {
+            dependencies {
+                imports {
+                    mavenBom "org.springframework.boot:spring-boot-dependencies:${spring_boot_version}"
+                }
+                dependency("org.springframework.boot:spring-boot-starter-test:${spring_boot_version}") {
+                    exclude group: "org.junit.vintage", name: "junit-vintage-engine"
+                }
+                dependency "io.confluent:kafka-avro-serializer:${kafka_avro_serializer}"
+                dependency "org.apache.avro:avro:${avro_version}"
+            }
+        }
+    }
+}

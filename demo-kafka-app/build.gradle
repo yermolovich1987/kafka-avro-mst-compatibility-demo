@@ -1,0 +1,99 @@
+buildscript {
+	repositories {
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+		maven {
+			url 'http://packages.confluent.io/maven/'
+		}
+		// Required for newer version of the 'kafka-schema-registry-gradle-plugin'
+		maven {
+			url = uri("https://jitpack.io")
+		}
+	}
+}
+
+plugins {
+	id 'org.springframework.boot'
+	id 'io.spring.dependency-management'
+	id 'com.github.davidmc24.gradle.plugin.avro'
+	id 'com.github.imflog.kafka-schema-registry-gradle-plugin'
+	id 'com.avast.gradle.docker-compose'
+	id 'java'
+}
+
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir "${buildDir.absolutePath}/build/generated-main-avro-java"
+		}
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven {
+		url 'http://packages.confluent.io/maven/'
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'io.confluent:kafka-avro-serializer'
+	compile 'org.apache.avro:avro'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+avro {
+	fieldVisibility = "PRIVATE"
+	// Required to eliminate known bug with schema compatibility => https://github.com/confluentinc/schema-registry/issues/868
+	stringType = "CharSequence"
+}
+
+schemaRegistry {
+	url = "http://localhost:8081"
+	register {
+		subject('simple-single-message-topic-value', 'demo-kafka-app/src/main/avro/SimpleSingleMessage.avsc')
+		// Start of the multi-schema definition section.
+		subject('task-created-avro-value', 'demo-kafka-app/src/main/avro/TaskCreated.avsc')
+		subject('task-cancelled-avro-value', 'demo-kafka-app/src/main/avro/TaskCancelled.avsc')
+		// Taken from example: https://github.com/ImFlog/schema-registry-plugin/blob/master/examples/avro/build.gradle
+		subject('multi-schema-topic-value', 'demo-kafka-app/src/main/avro/TaskMessagesUnion.avsc')
+				.addReference('task-created-avro-value', 'task-created-avro-value', -1)
+				.addReference('task-cancelled-avro-value', 'task-cancelled-avro-value', -1)
+	}
+	config {
+		subject('simple-single-message-topic-value', 'FULL_TRANSITIVE')
+		subject('task-created-avro-value', 'FULL_TRANSITIVE')
+		subject('task-cancelled-avro-value', 'FULL_TRANSITIVE')
+		subject('multi-schema-topic-value', 'FULL_TRANSITIVE')
+	}
+}
+
+task runDockerComposeWithSchemas {
+	dependsOn 'composeUp'
+	dependsOn 'registerSchemasTask'
+	dependsOn 'configSubjectsTask'
+	tasks.findByName('registerSchemasTask').mustRunAfter 'composeUp'
+	tasks.findByName('configSubjectsTask').mustRunAfter 'registerSchemasTask'
+}
+
+dockerCompose {
+	forceRecreate = true
+}

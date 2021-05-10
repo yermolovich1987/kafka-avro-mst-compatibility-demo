@@ -1,0 +1,14 @@
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version "${spring_boot_version}"
+        id 'io.spring.dependency-management' version "${spring_dependency_management_version}"
+        id 'com.github.davidmc24.gradle.plugin.avro' version "${avro_gradle_plugin_version}"
+        id 'com.github.imflog.kafka-schema-registry-gradle-plugin' version "${avro_schema_registry_plugin_version}"
+        id 'com.avast.gradle.docker-compose' version "${docker_compose_plugin_version}"
+    }
+}
+
+rootProject.name = 'kafka-avro-mst-compatibility-demo'
+
+include 'demo-kafka-app'
+include 'new-schema-version-registrator'

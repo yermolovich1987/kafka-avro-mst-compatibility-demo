@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "name": "SimpleSingleMessage",
+  "namespace": "com.demo.avro",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "additionalOptionalField",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    }
+  ]
+}

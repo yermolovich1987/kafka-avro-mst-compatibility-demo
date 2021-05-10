@@ -1,0 +1,4 @@
+[
+  "com.demo.avro.TaskCreated",
+  "com.demo.avro.TaskCancelled"
+]
