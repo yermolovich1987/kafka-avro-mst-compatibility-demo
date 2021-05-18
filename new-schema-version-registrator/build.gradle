@@ -58,20 +58,13 @@ avro {
 }
 
 schemaRegistry {
-	url = 'http://localhost:8081'
+	url = "http://localhost:8081"
 	register {
-		subject('simple-single-message-topic-value', 'new-schema-version-registrator/src/main/avro/SimpleSingleMessage.avsc')
-		subject('task-created-avro-value', 'new-schema-version-registrator/src/main/avro/TaskCreated.avsc')
-		subject('task-cancelled-avro-value', 'new-schema-version-registrator/src/main/avro/TaskCancelled.avsc')
-		subject('multi-schema-topic-value', 'new-schema-version-registrator/src/main/avro/TaskMessagesUnion.avsc')
-				.addReference('task-created-avro-value', 'task-created-avro-value', -1)
-				.addReference('task-cancelled-avro-value', 'task-cancelled-avro-value', -1)
+		subject('multi-schema-topic-com.demo.avro.TaskCreated', 'new-schema-version-registrator/src/main/avro/TaskCreated.avsc')
+		subject('multi-schema-topic-com.demo.avro.TaskCancelled', 'new-schema-version-registrator/src/main/avro/TaskCancelled.avsc')
 	}
 	config {
-		subject('simple-single-message-topic-value', 'FULL_TRANSITIVE')
-		subject('task-created-avro-value', 'FULL_TRANSITIVE')
-		subject('task-cancelled-avro-value', 'FULL_TRANSITIVE')
-		// Sets the compatibility level for topic with schema reference.
-		subject('multi-schema-topic-value', 'FULL_TRANSITIVE')
+		subject('multi-schema-topic-com.demo.avro.TaskCreated', 'FULL_TRANSITIVE')
+		subject('multi-schema-topic-com.demo.avro.TaskCancelled', 'FULL_TRANSITIVE')
 	}
 }
