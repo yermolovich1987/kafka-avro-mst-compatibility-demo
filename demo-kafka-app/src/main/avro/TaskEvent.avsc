@@ -1,0 +1,14 @@
+{
+  "type": "record",
+  "name": "TaskEvent",
+  "namespace": "com.demo.avro",
+  "fields": [
+    {
+      "name": "event",
+      "type": [
+        "com.demo.avro.TaskCreated",
+        "com.demo.avro.TaskCancelled"
+      ]
+    }
+  ]
+}

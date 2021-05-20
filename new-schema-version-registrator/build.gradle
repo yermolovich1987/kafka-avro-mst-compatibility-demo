@@ -63,7 +63,7 @@ schemaRegistry {
 		subject('simple-single-message-topic-value', 'new-schema-version-registrator/src/main/avro/SimpleSingleMessage.avsc')
 		subject('task-created-avro-value', 'new-schema-version-registrator/src/main/avro/TaskCreated.avsc')
 		subject('task-cancelled-avro-value', 'new-schema-version-registrator/src/main/avro/TaskCancelled.avsc')
-		subject('multi-schema-topic-value', 'new-schema-version-registrator/src/main/avro/TaskMessagesUnion.avsc')
+		subject('multi-schema-topic-value', 'new-schema-version-registrator/src/main/avro/TaskEvent.avsc')
 				.addReference('task-created-avro-value', 'task-created-avro-value', -1)
 				.addReference('task-cancelled-avro-value', 'task-cancelled-avro-value', -1)
 	}

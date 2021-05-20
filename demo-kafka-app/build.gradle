@@ -74,7 +74,7 @@ schemaRegistry {
 		subject('task-created-avro-value', 'demo-kafka-app/src/main/avro/TaskCreated.avsc')
 		subject('task-cancelled-avro-value', 'demo-kafka-app/src/main/avro/TaskCancelled.avsc')
 		// Taken from example: https://github.com/ImFlog/schema-registry-plugin/blob/master/examples/avro/build.gradle
-		subject('multi-schema-topic-value', 'demo-kafka-app/src/main/avro/TaskMessagesUnion.avsc')
+		subject('multi-schema-topic-value', 'demo-kafka-app/src/main/avro/TaskEvent.avsc')
 				.addReference('task-created-avro-value', 'task-created-avro-value', -1)
 				.addReference('task-cancelled-avro-value', 'task-cancelled-avro-value', -1)
 	}

@@ -13,9 +13,9 @@ spring:
       auto:
         register:
           schemas: false
-      use:
-        latest:
-          version: true
+#      use:
+#        latest:
+#          version: true
     consumer:
       group-id: demo-consumer
       auto-offset-reset: latest
