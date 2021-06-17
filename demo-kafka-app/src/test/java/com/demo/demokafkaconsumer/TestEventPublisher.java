@@ -2,6 +2,7 @@ package com.demo.demokafkaconsumer;
 
 import com.demo.avro.SimpleSingleMessage;
 import com.demo.avro.TaskCreated;
+import com.demo.avro.TaskEvent;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,9 @@ public class TestEventPublisher {
     planEventSender.send(
         multiSchemaTopic,
         "testEvent",
-        TaskCreated.newBuilder().setId(123).setName("someTask").build());
+        TaskEvent.newBuilder()
+            .setEvent(TaskCreated.newBuilder().setId(123).setName("someTask").build())
+            .build());
   }
 
   // Just to check that single topic do not work for this case too.
