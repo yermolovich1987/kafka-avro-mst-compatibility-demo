@@ -69,20 +69,13 @@ avro {
 schemaRegistry {
 	url = "http://localhost:8081"
 	register {
-		subject('simple-single-message-topic-value', 'demo-kafka-app/src/main/avro/SimpleSingleMessage.avsc')
 		// Start of the multi-schema definition section.
-		subject('task-created-avro-value', 'demo-kafka-app/src/main/avro/TaskCreated.avsc')
-		subject('task-cancelled-avro-value', 'demo-kafka-app/src/main/avro/TaskCancelled.avsc')
-		// Taken from example: https://github.com/ImFlog/schema-registry-plugin/blob/master/examples/avro/build.gradle
-		subject('multi-schema-topic-value', 'demo-kafka-app/src/main/avro/TaskMessagesUnion.avsc')
-				.addReference('task-created-avro-value', 'task-created-avro-value', -1)
-				.addReference('task-cancelled-avro-value', 'task-cancelled-avro-value', -1)
+		subject('multi-schema-topic-com.demo.avro.TaskCreated', 'demo-kafka-app/src/main/avro/TaskCreated.avsc')
+		subject('multi-schema-topic-com.demo.avro.TaskCancelled', 'demo-kafka-app/src/main/avro/TaskCancelled.avsc')
 	}
 	config {
-		subject('simple-single-message-topic-value', 'FULL_TRANSITIVE')
-		subject('task-created-avro-value', 'FULL_TRANSITIVE')
-		subject('task-cancelled-avro-value', 'FULL_TRANSITIVE')
-		subject('multi-schema-topic-value', 'FULL_TRANSITIVE')
+		subject('multi-schema-topic-com.demo.avro.TaskCreated', 'FULL_TRANSITIVE')
+		subject('multi-schema-topic-com.demo.avro.TaskCancelled', 'FULL_TRANSITIVE')
 	}
 }
 

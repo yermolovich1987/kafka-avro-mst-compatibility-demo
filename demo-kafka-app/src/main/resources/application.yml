@@ -13,9 +13,13 @@ spring:
       auto:
         register:
           schemas: false
-      use:
-        latest:
-          version: true
+      #      use:
+      #        latest:
+      #          version: true
+      value:
+        subject:
+          name:
+            strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
     consumer:
       group-id: demo-consumer
       auto-offset-reset: latest
